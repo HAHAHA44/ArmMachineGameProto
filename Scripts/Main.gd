@@ -60,7 +60,5 @@ func setTokenTo2DArrRandomly(token, arr, row, col):
 	else:
 		setTokenTo2DArrRandomly(token, arr, row, col)
 	
-	
-	
 func _on_hud_start_game():
 	pass # Replace with function body.
