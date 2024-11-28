@@ -7,6 +7,7 @@ var ReelScene = load("res://Scenes/Reel.tscn")
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	tokenPool.load_tokens()
 	initial_panel_randomly()
 
 func initial_panel_randomly():
@@ -14,45 +15,47 @@ func initial_panel_randomly():
 	var rowNum = 5
 	var colNum = 5
 	print("got row num: ", rowNum, ",   got col num: ", colNum)
-	var arr = arrangeTokens(tokens, rowNum, colNum)
-	print(arr.size(), arr[0].size())
-	mountTokensOntoPanel(arr)
+	arrangeTokens(tokens, rowNum, colNum)
+	mountTokensOntoPanel(tokens, rowNum, colNum)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta):
 	pass
 
 func arrangeTokens(tokens: Array[CToken], rowNum: int, colNum: int):
-	tokens.shuffle()
-	var retArr = []
-	for i in range(rowNum):
-		var row = []
-		for j in range(colNum):
-			var token = TokenScene.instantiate()
-			token.initialize("Empty")
-			row.append(token)
-		retArr.append(row)
-		
-	for token in tokens:
-		setTokenTo2DArrRandomly(token, retArr, colNum, colNum)
-	for rets in retArr:
-		tokenPool.printTokens(rets)
+	#var retArr = []
 	
-	return retArr
+	var count = rowNum * colNum
+	for i in range(tokens.size(), count):
+		var token = TokenScene.instantiate()
+		token.initialize("Empty")
+		tokens.append(token)
 		
-func mountTokensOntoPanel(tokenArrs):
-	var r = 0
-	var c = 0
-	for row in tokenArrs:
+	tokens.shuffle()
+	
+	#for i in range(rowNum):
+		#var row = []
+		#retArr.append(row)
+		#
+	#for token in tokens:
+		#setTokenTo2DArrRandomly(token, retArr, colNum, colNum)
+	#for rets in retArr:
+		#tokenPool.printTokens(rets)
+	
+	#return retArr
+		
+func mountTokensOntoPanel(tokenArrs, rowNum: int, colNum: int):
+	print("mount tokens onto panel, ", rowNum, ", ", colNum)
+	var count = 0
+	for row in range(rowNum):
 		var reel = ReelScene.instantiate()
-		r += 1
-		c = 0
-		for token in row:
-			c += 1
-			print(r, c)
+		for col in range(colNum):
+			var token = tokenArrs[count]
 			reel.add_child(token)
+			count += 1
+			print("row, ", row, "col, ", col, token.tokenName)
 		$Panel.add_child(reel)
-		
+	#print_tree_pretty()
 
 func setTokenTo2DArrRandomly(token, arr, row, col):
 	var randRow = randi() % row
@@ -67,5 +70,8 @@ func _on_hud_start_game():
 	initial_panel_randomly()
 
 func reset_panel():
-	for child in $Panel.get_children():
-		child.queue_free()
+	print("reset panel")
+	for reel in $Panel.get_children():
+		for token in reel.get_children():
+			reel.remove_child(token)
+		reel.queue_free()
