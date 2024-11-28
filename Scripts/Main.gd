@@ -7,6 +7,9 @@ var ReelScene = load("res://Scenes/Reel.tscn")
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	initial_panel_randomly()
+
+func initial_panel_randomly():
 	var tokens = tokenPool.getCurrentTokens()
 	var rowNum = 5
 	var colNum = 5
@@ -14,7 +17,6 @@ func _ready():
 	var arr = arrangeTokens(tokens, rowNum, colNum)
 	print(arr.size(), arr[0].size())
 	mountTokensOntoPanel(arr)
-
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta):
@@ -61,4 +63,9 @@ func setTokenTo2DArrRandomly(token, arr, row, col):
 		setTokenTo2DArrRandomly(token, arr, row, col)
 	
 func _on_hud_start_game():
-	pass # Replace with function body.
+	reset_panel()
+	initial_panel_randomly()
+
+func reset_panel():
+	for child in $Panel.get_children():
+		child.queue_free()
