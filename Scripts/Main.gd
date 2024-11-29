@@ -4,6 +4,8 @@ var tokenPool = preload("res://Scripts/TokenPool.gd").new()
 var TokenScene = preload("res://Scenes/Token.tscn")
 var panelScene = load("res://Scenes/Panel.tscn")
 var ReelScene = load("res://Scenes/Reel.tscn")
+var rowNum = 5
+var colNum = 5
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -12,18 +14,16 @@ func _ready():
 
 func initial_panel_randomly():
 	var tokens = tokenPool.getCurrentTokens()
-	var rowNum = 5
-	var colNum = 5
+
 	print("got row num: ", rowNum, ",   got col num: ", colNum)
-	tokens = arrangeTokens(tokens, rowNum, colNum)
+	tokens = fillEmptyTokens(tokens, rowNum, colNum)
 	mountTokensOntoPanel(tokens, rowNum, colNum)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta):
 	pass
 
-func arrangeTokens(tokens: Array[CToken], rowNum: int, colNum: int):
-	#var retArr = []
+func fillEmptyTokens(tokens: Array[CToken], rowNum: int, colNum: int):
 	
 	var count = rowNum * colNum
 	for i in range(tokens.size(), count):
@@ -53,11 +53,14 @@ func _on_hud_start_game():
 	initial_panel_randomly()
 	#var scored_token_tuples = calculate_score()
 
+
 func calculate_score() -> Array[int]:
 	var pos = Vector2(10, 10)
 	var tokens: Array[CToken] = tokenPool.getCurrentTokens()
 	var scored_token_tuples = []
+
 	for i in tokens.size():
+		# [index, level]
 		var curTuple = []
 		var token = tokens[i]
 		if token.level >= 1:
