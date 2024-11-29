@@ -29,7 +29,7 @@ static func serilizeTokens(TokenCreator: Resource):
 				if typeof(parsed_data) == TYPE_ARRAY:
 					for obj in parsed_data:
 						var tokenInstance = TokenCreator.instantiate()
-						tokenInstance.initialize(obj["name"])
+						tokenInstance.initialize(obj["name"], obj["level"])
 						TokenArray.append(tokenInstance)
 				else:
 					print("Parsed data is not an array")

@@ -15,7 +15,7 @@ func initial_panel_randomly():
 	var rowNum = 5
 	var colNum = 5
 	print("got row num: ", rowNum, ",   got col num: ", colNum)
-	arrangeTokens(tokens, rowNum, colNum)
+	tokens = arrangeTokens(tokens, rowNum, colNum)
 	mountTokensOntoPanel(tokens, rowNum, colNum)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -28,22 +28,13 @@ func arrangeTokens(tokens: Array[CToken], rowNum: int, colNum: int):
 	var count = rowNum * colNum
 	for i in range(tokens.size(), count):
 		var token = TokenScene.instantiate()
-		token.initialize("Empty")
+		token.initialize("Empty", null)
 		tokens.append(token)
 		
 	tokens.shuffle()
 	
-	#for i in range(rowNum):
-		#var row = []
-		#retArr.append(row)
-		#
-	#for token in tokens:
-		#setTokenTo2DArrRandomly(token, retArr, colNum, colNum)
-	#for rets in retArr:
-		#tokenPool.printTokens(rets)
-	
-	#return retArr
-		
+	return tokens
+
 func mountTokensOntoPanel(tokenArrs, rowNum: int, colNum: int):
 	print("mount tokens onto panel, ", rowNum, ", ", colNum)
 	var count = 0
@@ -56,18 +47,23 @@ func mountTokensOntoPanel(tokenArrs, rowNum: int, colNum: int):
 			print("row, ", row, "col, ", col, token.tokenName)
 		$Panel.add_child(reel)
 	#print_tree_pretty()
-
-func setTokenTo2DArrRandomly(token, arr, row, col):
-	var randRow = randi() % row
-	var randCol = randi() % col
-	if arr[randRow][randCol].tokenName == "Empty":
-		arr[randRow][randCol] = token
-	else:
-		setTokenTo2DArrRandomly(token, arr, row, col)
 	
 func _on_hud_start_game():
 	reset_panel()
 	initial_panel_randomly()
+	#var scored_token_tuples = calculate_score()
+
+func calculate_score() -> Array[int]:
+	var pos = Vector2(10, 10)
+	var tokens: Array[CToken] = tokenPool.getCurrentTokens()
+	var scored_token_tuples = []
+	for i in tokens.size():
+		var curTuple = []
+		var token = tokens[i]
+		if token.level >= 1:
+			curTuple.append(i)
+			scored_token_tuples.append(curTuple)
+	return scored_token_tuples
 
 func reset_panel():
 	print("reset panel")

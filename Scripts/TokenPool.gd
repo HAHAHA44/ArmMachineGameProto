@@ -13,7 +13,7 @@ func load_tokens():
 
 func getCurrentTokens() -> Array[CToken]:
 	print("get current tokens")
-	printTokens(tokens)
+	#printTokens(tokens)
 	return tokens
 
 func generateToken():
