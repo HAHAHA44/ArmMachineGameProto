@@ -16,12 +16,12 @@ func animate(keepTime: int) -> void:
 	var tween = create_tween()
 	tween.set_parallel(true)
 	
-	# 向上移动
+	# move upwards
 	tween.tween_property(self, "position",
 		position + Vector2(0, -100), 1.0
 	).set_ease(Tween.EASE_OUT)
 	
-	# 淡出效果
+	# fade out
 	tween.tween_property(self, "modulate",
 		Color(1, 1, 1, 0), 1.0
 	).set_ease(Tween.EASE_IN)
