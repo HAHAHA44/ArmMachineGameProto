@@ -16,9 +16,10 @@ func _ready():
 	initial_panel_randomly()
 
 func initial_panel_randomly():
-	var tokens = tokenPool.getCurrentTokens(volume())
+	var tokens = tokenPool.get_current_tokens(volume())
+	tokenPool.shuffle_tokens()
 	print("got row num: ", rowNum, ",   got col num: ", colNum)
-	mountTokensOntoPanel(tokens, rowNum, colNum)
+	mount_tokens_onto_panel(tokens, rowNum, colNum)
 	
 	var scored_token_tuples = calculate_score()
 	for scored_token_tuple in scored_token_tuples:
@@ -31,7 +32,7 @@ func initial_panel_randomly():
 func _process(_delta):
 	pass
 
-func mountTokensOntoPanel(tokenArrs, rowNum: int, colNum: int):
+func mount_tokens_onto_panel(tokenArrs, rowNum: int, colNum: int):
 	print("mount tokens onto panel, ", rowNum, ", ", colNum)
 	var count = 0
 	for row in range(rowNum):
@@ -49,7 +50,7 @@ func _on_hud_start_game():
 	initial_panel_randomly()
 
 func calculate_score() -> Array:
-	var tokens: Array[CToken] = tokenPool.getCurrentTokens(volume())
+	var tokens: Array[CToken] = tokenPool.get_current_tokens(volume())
 	var scored_token_tuples = []
 
 	for i in tokens.size():

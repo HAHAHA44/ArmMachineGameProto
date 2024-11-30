@@ -12,13 +12,18 @@ func load_tokens():
 	tokens = JsonLoader.serilizeTokens(TokenScene) as Array[CToken]
 
 # Return the token slice with given 
-func getCurrentTokens(len: int) -> Array[CToken]:
-	print("get current tokens")
+func get_current_tokens(len: int) -> Array[CToken]:
+	print("get current tokens," + str(tokens.size()) + "/" + str(len))
 	if tokens.size() < len:
 		fillEmptyTokens(len)
 	#printTokens(tokens)
+	if tokens.size() > len:
+		return tokens.slice(0, len)
 	return tokens
 
+func shuffle_tokens():
+	tokens.shuffle()
+	
 func fillEmptyTokens(len: int):
 	for i in range(tokens.size(), len):
 		var token = TokenScene.instantiate()
