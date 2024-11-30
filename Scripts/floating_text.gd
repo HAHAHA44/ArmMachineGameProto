@@ -3,13 +3,16 @@ extends Node2D
 @onready var label = $Label
 
 func _ready() -> void:
-	animate()
+	pass
 
 func setup(value: int, color: Color = Color.WHITE) -> void:
 	label.text = "+" + str(value)
 	label.modulate = color
 
-func animate() -> void:
+func animate(keepTime: int) -> void:
+	if keepTime:
+		await get_tree().create_timer(keepTime).timeout
+
 	var tween = create_tween()
 	tween.set_parallel(true)
 	
