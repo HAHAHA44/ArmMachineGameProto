@@ -2,7 +2,8 @@ extends CanvasLayer
 
 var tokenPool = preload("res://Scripts/TokenPool.gd")
 signal start_game
-
+signal update_token
+signal draw_token
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	pass
@@ -34,9 +35,16 @@ func _on_start_button_pressed():
 	#$StartButton.hide()
 	start_game.emit()
 
+
+
+
 func random_update_a_token():
 	#tokenPool.instance.
 	pass
 
 func _on_message_timer_timeout():
 	$MessageLabel.hide()
+
+
+func _on_draw_btn_pressed():
+	draw_token.emit()

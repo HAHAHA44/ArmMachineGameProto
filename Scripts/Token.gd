@@ -38,11 +38,11 @@ func set_level(_level):
 	$Level.text = _level
 	
 func set_token_name(_name):
-	$Level.text = _name
+	$Label.text = _name
 	tokenName = _name
 
 func toString():
-	return "id:" + str(id) + ", name:" + tokenName
+	return "[id:" + str(id) + ", name:" + tokenName + ",level:" + str(level) + "]"
 	
 func calc_score(index: int, tokens: Array[CToken], rowNum: int, colNum: int):
 	var offsets_8 = [

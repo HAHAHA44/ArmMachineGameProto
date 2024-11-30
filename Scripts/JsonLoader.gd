@@ -1,5 +1,7 @@
 extends Node
 var TokenScene = preload("res://Scenes/Token.tscn")
+var Token
+static var tokenTemplate
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -9,6 +11,11 @@ func _ready():
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	pass
+
+static func create_token_by_template(obj, TokenCreator: Resource):
+	var tokenInstance = TokenCreator.instantiate()
+	tokenInstance.initialize(obj["name"], obj["level"])
+	return tokenInstance
 
 static func serilizeTokens(TokenCreator: Resource):
 	var TokenArray: Array[CToken] = []
@@ -27,9 +34,9 @@ static func serilizeTokens(TokenCreator: Resource):
 				var parsed_data = json.data
 				
 				if typeof(parsed_data) == TYPE_ARRAY:
+					tokenTemplate = parsed_data
 					for obj in parsed_data:
-						var tokenInstance = TokenCreator.instantiate()
-						tokenInstance.initialize(obj["name"], obj["level"])
+						var tokenInstance = create_token_by_template(obj, TokenCreator)
 						TokenArray.append(tokenInstance)
 				else:
 					print("Parsed data is not an array")
