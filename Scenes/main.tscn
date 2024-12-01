@@ -11,5 +11,6 @@ script = ExtResource("1_6uj48")
 
 [node name="HUD" parent="." instance=ExtResource("3_y0nlq")]
 
+[connection signal="gui_input" from="Panel" to="." method="_on_panel_gui_input"]
 [connection signal="draw_token" from="HUD" to="." method="_on_hud_draw_token"]
 [connection signal="start_game" from="HUD" to="." method="_on_hud_start_game"]

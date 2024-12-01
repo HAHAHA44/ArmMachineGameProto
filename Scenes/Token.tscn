@@ -5,9 +5,9 @@
 [node name="Token" type="Control"]
 custom_minimum_size = Vector2(120, 160)
 layout_mode = 3
-anchors_preset = 0
-offset_right = 120.0
-offset_bottom = 160.0
+anchor_right = 0.1
+anchor_bottom = 0.178
+offset_bottom = -0.199997
 script = ExtResource("1_kxe0c")
 
 [node name="ColorRect" type="ColorRect" parent="."]
@@ -49,3 +49,5 @@ grow_horizontal = 2
 text = "label"
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[connection signal="gui_input" from="ColorRect" to="." method="_on_gui_input"]
